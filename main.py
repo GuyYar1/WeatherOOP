@@ -1,10 +1,12 @@
+import numpy as np
 import streamlit as st
+from pygments.lexers import python
 from services.weather_service_printer import WeatherServicePrinter
 from services.weather_manager import WeatherManager
-from parsers.specific_parser import SpecificParser
+from parsers.SpecificParser import SpecificParser
+from UI.tcl_ui_app import *
 
-def main():
-
+async def main():
     """Explanation
 Main File: main.py initializes the necessary components and handles the GUI interaction using Streamlit.
 Weather Service Printer: Responsible for printing data and uses dependency injection for the WeatherManager.
@@ -16,15 +18,15 @@ This structure ensures clear separation of concerns, making the codebase modular
 """
 
     # Initialize the weather manager and parser
-    weather_manager = WeatherManager()
-    specific_parser = SpecificParser()
+    # breakpoint()
 
     # Inject the weather manager into the printer
-    weather_service_printer = WeatherServicePrinter(weather_manager)
+    weather_service_printer = WeatherServicePrinter()
 
+    await weather_service_printer.print_data()
     # Simulate GUI request to bring and save data
-    st.button("Fetch and Save Weather Data", on_click=weather_service_printer.print_data)
-
+    # st.button("Fetch and Save Weather Data", on_click=weather_service_printer.print_data)
 
 if __name__ == "__main__":
-    main()
+    import asyncio
+    asyncio.run(main())

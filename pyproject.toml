@@ -8,6 +8,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 requests = "^2.32.3"
+streamlit = "^1.35.0"
+opencv-python = "^4.9.0.80"
+asyncio = "^3.4.3"
 
 
 [build-system]

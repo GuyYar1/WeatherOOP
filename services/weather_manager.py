@@ -1,11 +1,13 @@
 import requests
+import asyncio
+# import pdb ## Enable trace while using the run and not the debug mode
+
 
 
 from parsers.base_parser import BaseParser
 from utils.event import Event
 
 class WeatherManager:
-
     """This class manages the parsers and commands them to fetch data. """
     def __init__(self):
         self.parsers = []  # List to hold different parsers
@@ -13,11 +15,12 @@ class WeatherManager:
 
     def add_parser(self, parser: BaseParser):
         self.parsers.append(parser)
-        parser.data_ready_event += self.on_data_ready
+        self.parsers[-1].data_ready_event += self.on_data_ready
+        # breakpoint()
 
-    def fetch_and_save_data(self):
+    async def fetch_and_save_data(self):
         for parser in self.parsers:
-            parser.fetch_data()
+            await parser.fetch_data()
 
     def on_data_ready(self, data):
         # Handle the event when data is ready
