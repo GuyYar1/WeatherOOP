@@ -3,7 +3,7 @@ import streamlit as st
 from pygments.lexers import python
 from services.weather_service_printer import WeatherServicePrinter
 from services.weather_manager import WeatherManager
-from parsers.SpecificParser import SpecificParser
+from parsers.h3d5_parser import H3D5_Parser
 from UI.tcl_ui_app import *
 
 async def main():
@@ -22,6 +22,7 @@ This structure ensures clear separation of concerns, making the codebase modular
 
     # Inject the weather manager into the printer
     weather_service_printer = WeatherServicePrinter()
+    weather_service_printer.spi_3h_5d_forecast("London", None, None)
 
     await weather_service_printer.print_data()
     # Simulate GUI request to bring and save data
