@@ -22,7 +22,7 @@ This structure ensures clear separation of concerns, making the codebase modular
 
     # Inject the weather manager into the printer
     weather_service_printer = WeatherServicePrinter()
-    weather_service_printer.spi_3h_5d_forecast("London", None, None)
+    weather_service_printer.get_all_forcast("Springfield", "US", "IL")
 
     await weather_service_printer.print_data()
     # Simulate GUI request to bring and save data

@@ -16,14 +16,15 @@ def api_serve():
 
 
 class ApiGatewayManager:
-    def __init__(self, model_weather: WeatherData, city_name: str, country_code: str = None, state_name: str = None):
+    def __init__(self, model_weather: WeatherData, city_name: str, country_code: str = None, state_code: str = None):
         self.model_weather = model_weather
-        self.city_name = city_name          # requested
-        self.country_code = country_code    # requested
-        self.state_name = state_name
+        self.city_name = city_name  # requested
+        self.country_code = country_code  # requested
+        self.state_code = state_code
         # option to add state code.
 
-    def get_weatherbycity(self, model_weather: WeatherData, city_name: str, country_code: str = None, state_name: str = None):
+    def get_weatherbycity(self, model_weather: WeatherData, city_name: str, country_code: str = None,
+                          state_name: str = None):
         """
              Call 5 day / 3 hour forecast data at:    https://openweathermap.org/forecast5#name5
              get_weather by city:  gets(model_weather: WeatherData ,cityName: str, country_code: str )
@@ -38,7 +39,7 @@ class ApiGatewayManager:
         """
         cache_key = model_weather.get_cache_key(city_name, country_code, state_name)
 
-        self.print_timesinfo(city_name) # Implement but not here. ##$REFACTOR##$
+        self.print_timesinfo(city_name)  # Implement but not here. ##$REFACTOR##$
 
         if not (model_weather.is_cache_valid(cache_key)):
             # if the cache doesnt have this data or the data retrieved more than 2 hours, consider old data
@@ -49,7 +50,7 @@ class ApiGatewayManager:
             if not check_internet():
                 # print(f"check your internet connection - seems that you have an issue\n")
                 # print(f"Your query is not in the mem cache or file cache, fix the issue and re run")
-                self.model_weather.ret_stat_dic = {"Failure": "Connection","RetCity": None ,"RetCountry": None,
+                self.model_weather.ret_stat_dic = {"Failure": "Connection", "RetCity": None, "RetCountry": None,
                                                    "RetState": None, "RawData": None, "Fromcache": None}
                 exit()  # #OUT
 
@@ -57,8 +58,10 @@ class ApiGatewayManager:
                 response = requests.get(api_url, params={"q": self.city_name, "units": units, "appid": appid})
             # api.openweathermap.org/data/2.5/forecast?q=London&units=metric&appid=8fc9d67f835721026f13442e85c59884
             else:
-                response = requests.get(api_url, params={"q": self.city_name + "," + self.country_code,
-                                                         "units": units, "appid": appid})
+                response = requests.get(api_url, params={
+                                                "q": self.city_name + "," + self.state_code + "," + self.country_code
+                                                , "units": units, "appid": appid
+                                                        })
             print("Data retrieved by restfull API gateway ...")
             # # Check if the request was successful
             if response.status_code == 200:
@@ -66,11 +69,12 @@ class ApiGatewayManager:
                 data = response.json()
                 ret_city = data['city']['name']
                 ret_country = data['city']['country']
-                ret_state = state_name  #data['city']['country']['state']  #   invalid on Json
+                ret_state = state_name #  data['city']['country']['state']  # no such state, lat and lon will be different
 
                 self.model_weather.ret_stat_dic = {"Failure": "None", "RetCity": ret_city, "RetCountry": ret_country,
                                                    "RetState": ret_state, "RawData": data, "Fromcache": False}  # setter
-                print(f"Weather Forecast for {ret_city}, {ret_country}. Please ensure that this is what you requested \n")
+                print(f"Weather Forecast for {ret_city}, {ret_country}. "
+                      f"Please ensure that this is what you requested \n")
                 model_weather.set_cache(cache_key, data['list'])  # save to cache
                 return  # # OUT
             else:
@@ -81,8 +85,9 @@ class ApiGatewayManager:
             #  the data retrived by caching
             print("Data retrieved by mem cache or file cache")
             cache_data = model_weather.get_from_cache(cache_key)
-            self.model_weather.ret_stat_dic = {"Failure": None, "RetCity": None, "RetCountry": None,
-                                               "RetState": None, "RawData": cache_data, "Fromcache": True}
+            self.model_weather.ret_stat_dic = {"Failure": None, "RetCity": self.city_name,
+                                               "RetCountry": self.country_code,
+                                               "RetState": self.state_code, "RawData": cache_data, "Fromcache": True}
 
     def print_forecastdata(self, forecast_data):
         pass

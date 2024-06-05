@@ -30,6 +30,7 @@ class WeatherData(Cachebase):
     def serializedata(self):
         """Serialize the data to a dictionary"""
 
+        # Need to take the data if real  or cache if it indicate it True
         return {
             "date time": self.date_time,
             "temperature": self.temperature,
