@@ -24,4 +24,4 @@
 
 # dont forget to export the requirments before commit and after the verification that all modules that were added are in the poetry files.
 # if not do  so and then use the export command as followed, The command:
-# poetry export -f requirements.txt -o requirements.txt 
+# poetry export -f requirements.txt -o requirements.txt

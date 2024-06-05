@@ -3,7 +3,7 @@ import asyncio
 # import pdb ## Enable trace while using the run and not the debug mode
 
 
-
+from models.weather_data import WeatherData as m
 from parsers.base_parser import BaseParser
 from utils.event import Event
 
@@ -24,4 +24,4 @@ class WeatherManager:
 
     def on_data_ready(self, data):
         # Handle the event when data is ready
-        print("Data is ready and saved:", data)
+        print("Data is ready and saved:", data.serializedata())
