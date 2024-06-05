@@ -23,6 +23,9 @@ class SpecificParser(BaseParser):
         #model_weather: WeatherData, city_name: str, country_code: str = None
         apicall = ApiGatewayManager(wc, self.city_name, self.country_code )
         # Consider to remove or think why class is needed here and not static methods utils
-        apicall.get_weatherbycity(wc, self.city_name, self.country_code )
+        apicall.get_weatherbycity(wc, self.city_name, self.country_code)
+        print(wc.ret_stat_dic)  # remove it I'am here continue
+
+
         # Raise an event when data is ready
         self.data_ready_event.trigger(wc)

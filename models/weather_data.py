@@ -10,6 +10,17 @@ class WeatherData(Cachebase):
         self.temperature = temperature
         self.humidity = humidity
         self.weather_description = weather_description
+        self._ret_stat_dic = {}  # private but not protected with __
+
+    @property
+    def ret_stat_dic(self):
+        return self._ret_stat_dic
+
+    @ret_stat_dic.setter
+    def ret_stat_dic(self, value):
+        # Add any validation or logic here
+        self._ret_stat_dic = value
+
 
     def __str__(self):
         # When you call print(obj) or str(obj)
