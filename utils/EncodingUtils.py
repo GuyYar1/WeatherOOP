@@ -31,7 +31,10 @@ def decode_from_base64(encoded_string):
 
 def readprofile(filepath):
 
-    with open(filepath, 'r+') as file:
+    with open( "models/" + filepath, 'r+') as file:
+        # #Correct in Python: "models/myfile.txt"
+        # # Incorrect in Python: "models\\myfile.txt" (using backslashes)
+
         file_content = file.read()
         return decode_from_base64(file_content)
 
