@@ -1,13 +1,27 @@
-class WeatherData:
+from models.cache import Cachebase
+
+
+class WeatherData(Cachebase):
     """This file contains the data model. """
-    def __init__(self, temp, humidity):
-        self.temp = temp
+    def __init__(self, date_time=None, temperature=None, humidity=None, weather_description=None):
+        super().__init__() # initiate base class cache
+        # instance attributes
+        self.date_time = date_time
+        self.temperature = temperature
         self.humidity = humidity
+        self.weather_description = weather_description
+
+    def __str__(self):
+        # When you call print(obj) or str(obj)
+        # let the user know what is the output if just call the
+        return f"Date & Time: {self.date_time}\nTemperature: {self.temperature:.2f}°C\nWeather: {self.weather_description}\n{'-' * 20}"
 
     def serializedata(self):
         """Serialize the data to a dictionary"""
 
         return {
-            "temperature": self.temp,
-            "humidity": self.humidity
+            "date time": self.date_time,
+            "temperature": self.temperature,
+            "humidity": self.humidity,
+            "description":  self.weather_description
         }

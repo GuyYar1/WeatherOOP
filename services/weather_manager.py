@@ -1,13 +1,13 @@
 import requests
 import asyncio
-# import pdb ## Enable trace while using the run and not the debug mode
-
-
+import datetime
+from models.cache import *
 from models.weather_data import WeatherData as m
 from parsers.base_parser import BaseParser
 from utils.event import Event
+# import pdb ## Enable trace while using the run and not the debug mode
 
-class WeatherManager:
+class WeatherManager():
     """This class manages the parsers and commands them to fetch data. """
     def __init__(self):
         self.parsers = []  # List to hold different parsers

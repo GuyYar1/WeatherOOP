@@ -4,7 +4,8 @@ import pickle
 from datetime import datetime
 
 
-class CacheBase:
+class Cachebase:
+
     cache = {}
     cache_file_path = "cache_file.pkl"
 

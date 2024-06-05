@@ -10,6 +10,8 @@ class WeatherServicePrinter:
 
     def __init__(self):
         self.weather_manager = WeatherManager()
+        # Initiate the specificParser for specific APi call
+        #Consider to rename parser
         self.weather_manager.add_parser(SpecificParser())
 
     async def print_data(self):
