@@ -1,5 +1,5 @@
 from models.cache import Cachebase
-
+from models.Deserilaized import Deserializer_Factory as module
 
 class WeatherData(Cachebase):
     """This file contains the data model. """
@@ -29,11 +29,6 @@ class WeatherData(Cachebase):
 
     def serializedata(self):
         """Serialize the data to a dictionary"""
+        dictt = self.ret_stat_dic
+        return module.Deserializer_Factory.create_deserialized_object(dictt)
 
-        # Need to take the data if real  or cache if it indicate it True
-        return {
-            "date time": self.date_time,
-            "temperature": self.temperature,
-            "humidity": self.humidity,
-            "description":  self.weather_description
-        }
