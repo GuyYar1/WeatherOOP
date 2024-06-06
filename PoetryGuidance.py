@@ -1,4 +1,4 @@
-# Let's create a concise step-by-step guide for starting a new Python project using Poetry, including the `poetry init` command:
+# A   Let's create a concise step-by-step guide for starting a new Python project using Poetry, including the `poetry init` command:
 #
 # 1. **Install Poetry (if not already done):**
 #    - If you haven't installed Poetry yet, open your terminal and run:
@@ -48,7 +48,7 @@
 #
 # Remember to adjust the project name, dependencies, and other details according to your specific requirements. If you encounter any issues or need further assistance, feel free to ask! 😊🚀
 
-# error:
+# B  error:
 # module 'virtualenv.create.via_global_ref.builtin.cpython.mac_os' has no attribute 'CPython2macOsArmFramework'
 # PS C:\Users\DELL\Documents\GitHub\WeatherOOP> python -m venv venv
 # PS C:\Users\DELL\Documents\GitHub\WeatherOOP> venv\Scripts\activate
@@ -65,7 +65,22 @@
 
 
 
+#  C   While the poetry export command is commonly used to generate a requirements.txt file, there are other useful commands in Poetry. Here are a few:
+#
+# poetry new: Creates a new Python project with a suitable directory structure. You can customize the project name and choose whether to use the src layout:
+# poetry new my-package
+# poetry new --src my-package
+#
+# poetry init: Interactively creates a pyproject.toml file by prompting you for basic package information (name, description, author, etc.):
+# poetry init
+#
+# poetry install: Reads the pyproject.toml file, resolves dependencies, and installs them. If a poetry.lock file exists, it uses exact versions from there:
+# poetry install
 
+# D   Error
+# Especially on Windows, self add and self remove may be problematic so that other methods should be preferred.
+
+# E   --PART
 # Terminal: pip install poetry==1.4.2
 
 # pip install --require-hashes -r requirements.txt
@@ -82,7 +97,7 @@
 # python -m venv venv
 
 # poetry init     # click on all enter and at the end YES approve config
-# poetry self upd
+# poetry self update
 # create the main with the init function
 # yet not import moduls or packs
 # poetry install   # after that there are file: toml and lock

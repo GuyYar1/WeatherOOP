@@ -12,6 +12,7 @@ streamlit = "^1.35.0"
 opencv-python = "^4.9.0.80"
 asyncio = "^3.4.3"
 datetime = "^5.5"
+janus = "^1.0.0"
 
 
 [build-system]
