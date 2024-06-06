@@ -590,3 +590,7 @@ watchdog==4.0.1 ; python_version >= "3.11" and python_version < "4.0" and platfo
     --hash=sha256:f0de0f284248ab40188f23380b03b59126d1479cd59940f2a34f8852db710625 \
     --hash=sha256:f27279d060e2ab24c0aa98363ff906d2386aa6c4dc2f1a374655d4e02a6c5e5e \
     --hash=sha256:f8affdf3c0f0466e69f5b3917cdd042f89c8c63aebdb9f7c078996f607cdb0f5
+
+requests~=2.32.3
+numpy~=1.26.3
+Pygments~=2.18.0

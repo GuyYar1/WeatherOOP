@@ -15,6 +15,7 @@ class WeatherManager():
 
     def add_parser(self, parser: BaseParser):
         self.parsers.append(parser)
+        # when data_ready_event is triggered (wc)
         self.parsers[-1].data_ready_event += self.on_data_ready
         # breakpoint()
 
@@ -22,6 +23,7 @@ class WeatherManager():
         for parser in self.parsers:
             await parser.fetch_data()
 
-    def on_data_ready(self, data):
-        # Handle the event when data is ready
+    async def on_data_ready(self, data):
+        # Handle the event when data is ready, so first do fetch
         print("Data is ready and saved:", data.serializedata())
+        

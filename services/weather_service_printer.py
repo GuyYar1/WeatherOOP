@@ -2,7 +2,7 @@ from parsers.h3d5_parser import *
 from services.weather_manager import WeatherManager
 
 
-class WeatherServicePrinter:
+class :
 
     """
      This class is responsible for printing data and uses dependency injection for the weather manager

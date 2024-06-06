@@ -1,15 +1,19 @@
+import datetime
+from utils.TimeUtils import *
+
 class Deserializer_Factory:
     @staticmethod
-    def from_raw_data(raw_data):
+    def from_raw_data(raw_data, city):
     # Deserialization logic for raw data
         st_all = ""  # Initialize st_all before the loop
 
-        Deserializer_Factory.get_citytime(raw_data['city'])  # need to check
+        #city = city if city.isalpha() else "Adult"
+
+        if city.isalpha():
+            st_all += Deserializer_Factory.get_citytime(raw_data[city])  # need to check
         for forecast_data in raw_data:
             st_all += Deserializer_Factory.print_forecastdata(forecast_data)
         return st_all
-            # Initiate results structure, current dont use it. could be saved to DB later on
-           #WeatherForecast(dt, temp, humidity, weather_description)
 
     @staticmethod
     def from_cached_data(cached_data: dict):
@@ -30,7 +34,7 @@ class Deserializer_Factory:
     def create_deserialized_object(data):
         dict = data['RawData']
         if data['Failure'] is None and data['Fromcache']:
-            return Deserializer_Factory.from_raw_data(dict)
+            return Deserializer_Factory.from_raw_data(dict, data['RetCity'])
         elif data['Failure'] is None and not data['Fromcache']:
             return Deserializer_Factory.from_raw_data(dict)
         elif data['Failure'] is not None:
@@ -53,12 +57,13 @@ class Deserializer_Factory:
     @staticmethod
     def get_citytime(city_name):
         """Need toi understand if i want to concatnate it to st _all"""
-        # timenow = datetime.datetime.now()
-        # formatted_time = timenow.strftime("%Y-%m-%d %H:%M:%S")  # Custom format without "T"
-        # current_timeTZ = get_current_time_by_city(cityName)
-        # formatted_time = timenow.strftime("%Y-%m-%d %H:%M:%S")  # Custom format without "T"
-        # return "The current time is: " + formatted_time + ".  " + current_timeTZ
-        pass
+
+        timenow = datetime.datetime.now()
+        formatted_time = timenow.strftime("%Y-%m-%d %H:%M:%S")  # Custom format without "T"
+        current_timeTZ = get_current_time_by_city(city_name)
+        formatted_time = timenow.strftime("%Y-%m-%d %H:%M:%S")  # Custom format without "T"
+        return "The current time is: " + formatted_time + ".  " + current_timeTZ
+
 
 
 
