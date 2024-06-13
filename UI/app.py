@@ -1,24 +1,29 @@
 import streamlit as st
-from services.weather_service_printer import WeatherServicePrinter as serv
-from services.queue_manager import Queue_manager
+
+import services.WeatherServicePrinter
+from ..services.WeatherServicePrinter import WeatherServicePrinter as Wea
+from ..services.queue_manager import Queue_manager
+import pdb
+# pdb.set_trace()
+
 
 # How to run: open powershell type: streamlit run app.py
 
 def main():
+    #breakpoint()
     st.title('Weather Forecast App')
     city = st.text_input('Enter city name', 'London')
     country = st.text_input('Enter country code (optional)', '')
-
+    #breakpoint()
     state = st.text_input('Enter state code (optional)', '')
 
     if st.button('Get Weather'):
-        weather_obj = serv()
+        weather_obj = Wea()
         weather_obj.get_all_forcast(city, country, state)
         weather_obj.print_data()
 
         while True:
-
-            strprint = weather_obj.queue_m.consumer(weather_obj.queue_m)
+            strprint = Queue_manager.consumer(weather_obj.queue_m, weather_obj.queue_m)
             st.write(strprint)
             st.write("-" * 20)
             #
