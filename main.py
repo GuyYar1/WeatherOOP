@@ -1,13 +1,7 @@
-import numpy as np
-import streamlit as st
-from pygments.lexers import python
 from services.WeatherServicePrinter import WeatherServicePrinter
 from services.weather_manager import WeatherManager
 from parsers.h3d5_parser import H3D5_Parser
 from UI.tcl_ui_app import *
-
-
-
 
 async def main():
     """Explanation
@@ -21,17 +15,19 @@ This structure ensures clear separation of concerns, making the codebase modular
 """
     while True:
         # Inject the weather manager into the printer
-        weather_service_printer = WeatherServicePrinter()
-        # Inside "get_all_forcast" it will generate process and save data inside a queue called:
-        # asyncio.create_task(self.queue.producer("Data is ready and saved:", data.serializedata()))
-        weather_service_printer.get_all_forcast("Springfield", "US", "IL")
-
-        await weather_service_printer.print_data()
+        weather_srv_obj = WeatherServicePrinter()# Inside "get_all_forcast" it will generate process and save data inside a queue called:
+        weather_srv_obj.get_all_forcast("Springfield", "US", "IL")
+        await weather_srv_obj.print_data()
         # a separate thread of the Ui will preform dequeue of get_all_forcast type:  asyncio.Queue()
         # Simulate GUI request to bring and save data which will use
-        # st.button("Fetch and Save Weather Data", on_click=weather_service_printer.print_data)
-
-
+        while True:
+            next_item = await weather_srv_obj.get_from_queue()
+            print(next_item)
+            print("-" * 20)
+        else:
+            print('Failed to retrieve weather data.')
+            # async for strprint in queue_manager.consumer(): Yield not return
+            print("-" * 20)
 
 
 if __name__ == "__main__":

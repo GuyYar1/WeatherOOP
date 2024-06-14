@@ -40,7 +40,7 @@ async def main():
         await weather_obj.print_data()
 
         while True:
-            strprint = await Queue_manager.consumer(weather_obj.queue_m, weather_obj.queue_m)
+            strprint = await Queue_manager.consumer(weather_obj.queue_manager, weather_obj.queue_manager)
             st.write(strprint)
         #print(sys.path)
         #st.write(sys.path)

@@ -5,15 +5,16 @@ from models.cache import *
 from models.weather_data import WeatherData as m
 from parsers.base_parser import BaseParser
 from utils.event import Event
+from services.queue_manager import Queue_manager
+
 # import pdb ## Enable trace while using the run and not the debug mode
 
-class WeatherManager():
+class WeatherManager:
     """This class manages the parsers and commands them to fetch data. """
-    def __init__(self, queue):
+    def __init__(self):
         self.parsers = []  # List to hold different parsers
         self.data_ready_event = Event()
-        self.queue = queue
-
+        self.queue_m = Queue_manager()
 
 
     def add_parser(self, parser: BaseParser):
@@ -32,9 +33,13 @@ class WeatherManager():
         # Handle the event when data is ready, so first do fetch
 
         # Start the producer and consumer tasks
-        producer_task = asyncio.create_task(self.queue.producer(
-                                            self.queue, "Data is ready and saved:" + data.serializedata())
-                                                                )
+        producer_task = asyncio.create_task(self.queue_m.add_to_queue(
+                                            "Data is ready and saved:" + data.serializedata()
+                                            ))
+
         # await asyncio.gather(producer_task) # is there a meaning for only producer_task - check
-        print ("on_data_ready")
-        
+        print("on_data_ready")
+
+    async def get_from_queue(self):
+        return await self.queue_m.get_next_item()
+

@@ -1,40 +1,36 @@
 import asyncio
+from asyncio import Queue
+
 
 class Queue_manager:
+    _instance = None
+    _initialized = False
+
+    def __new__(cls, *args, **kwargs):
+        """
+        The __new__ method in Python is responsible for creating a new instance of a class.
+        It is called before the __init__ method and is used to control the creation of a new instance.
+        This is different from __init__, which initializes the instance after it is created.
+        :param args:
+        :param kwargs:
+        """
+        if cls._instance is None:
+            cls._instance = super().__new__(cls, *args, **kwargs)
+            cls._instance.queue = Queue()
+        return cls._instance
+
+    def __init__(self):
+        if not self._initialized:
+            self.__class__._initialized = True
+
+    async def add_to_queue(self, item):
+        await self.queue.put(item)
+
+    async def get_next_item(self):
+        return await self.queue.get()
+        #read about Yield later
 
 
-
-    def threaded(self, sync_q):
-        # Your existing threaded producer logic (if any)
-        pass
-
-    async def async_coro(self, async_q):
-        # Your existing asynchronous consumer logic (if any)
-        pass
-
-    def create_queues(self):
-        # Create an asyncio queue
-        async_q = asyncio.Queue()
-        # Start the threaded producer (if needed)
-        # threading.Thread(target=threaded, args=(async_q,)).start()
-        # Return both queues
-        return async_q
-
-    async def producer(self, queue, enqueue):
-        # Your producer logic (e.g., generate data and put it into the queue)
-        await queue.put(enqueue)
-        print(f'Produced {enqueue}')
-        #await asyncio.sleep(random.uniform(0.05, 0.1))  # Simulate some work
-
-    async def consumer(self, queue):
-        # Your consumer logic (e.g., process data from the queue)
-        # # while True:
-        dequeue = await queue.get()
-        print(f'Consumed {dequeue}')
-        queue.task_done()
-        return dequeue
-
-        #
 # How Does asyncio.Queue Work?
 # A Queue follows the First-In-First-Out (FIFO) order, meaning that the first item added to the queue is the first one to be retrieved.
 # Key methods of asyncio.Queue:

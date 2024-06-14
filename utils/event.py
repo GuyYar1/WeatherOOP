@@ -1,3 +1,6 @@
+import asyncio
+
+
 class Event:
     """This file contains the event class to handle events. """
     def __init__(self):
@@ -16,4 +19,11 @@ class Event:
 
     def trigger(self, *args, **kwargs):
         for handler in self.handlers:
-            handler(*args, **kwargs)
+            if asyncio.iscoroutinefunction(handler):
+                asyncio.create_task(handler(*args, **kwargs))
+            else:
+                handler(*args, **kwargs)
+
+    # def trigger(self, *args, **kwargs):
+    #     for handler in self.handlers:
+    #         handler(*args, **kwargs)
