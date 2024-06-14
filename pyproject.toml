@@ -15,7 +15,6 @@ datetime = "^5.5"
 janus = "^1.0.0"
 newt = "^0.1.0"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

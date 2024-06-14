@@ -47,6 +47,9 @@
 #    - Replace `my_package/main.py` with the actual path to your main Python file.
 #
 # Remember to adjust the project name, dependencies, and other details according to your specific requirements. If you encounter any issues or need further assistance, feel free to ask! 😊🚀
+# poetry list # retrieve the entire commands of poetry
+## poetry show --tree
+## poetry build
 
 # B  error:
 # module 'virtualenv.create.via_global_ref.builtin.cpython.mac_os' has no attribute 'CPython2macOsArmFramework'
