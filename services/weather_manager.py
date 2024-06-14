@@ -1,3 +1,4 @@
+import tracemalloc
 import requests
 import asyncio
 import datetime
@@ -16,7 +17,6 @@ class WeatherManager:
         self.data_ready_event = Event()
         self.queue_m = Queue_manager()
 
-
     def add_parser(self, parser: BaseParser):
         self.parsers.append(parser)
         # when data_ready_event of the parser itself which came from the BaseParser is triggered (wc)
@@ -31,14 +31,28 @@ class WeatherManager:
 
     async def on_data_ready(self, data):
         # Handle the event when data is ready, so first do fetch
-        breakpoint()
+        #breakpoint()
+        # tracemalloc.start()
+        # snapshot = tracemalloc.take_snapshot()
+        # top_stats = snapshot.statistics('lineno')
         # Start the producer and consumer tasks
-        producer_task = asyncio.create_task(self.queue_m.add_to_queue(
-                                            "Data is ready and saved:" + str(data.serializedata())
-                                            ))
-        breakpoint()
+        # breakpoint()
+        # producer_task = await asyncio.create_task(self.queue_m.add_to_queue(
+        #                                     "Data is ready and saved:" + str(data.serializedata())
+        #                                     ))
+
+        serialized_data = await data.serializedata()
+
+        # Start the producer task
+        producer_task = await self.queue_m.add_to_queue(
+            "Data is ready and saved: " + str(serialized_data)
+        )
+
         # await asyncio.gather(producer_task) # is there a meaning for only producer_task - check
         print("on_data_ready")
+        # for stat in top_stats[:10]:
+        #     print(stat)
+        # breakpoint()
 
     async def get_from_queue(self):
         return await self.queue_m.get_next_item()
