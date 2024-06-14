@@ -31,12 +31,12 @@ class WeatherManager:
 
     async def on_data_ready(self, data):
         # Handle the event when data is ready, so first do fetch
-
+        breakpoint()
         # Start the producer and consumer tasks
         producer_task = asyncio.create_task(self.queue_m.add_to_queue(
-                                            "Data is ready and saved:" + data.serializedata()
+                                            "Data is ready and saved:" + str(data.serializedata())
                                             ))
-
+        breakpoint()
         # await asyncio.gather(producer_task) # is there a meaning for only producer_task - check
         print("on_data_ready")
 

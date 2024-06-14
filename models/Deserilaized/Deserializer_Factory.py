@@ -33,7 +33,7 @@ class Deserializer_Factory:
     @staticmethod
     def create_deserialized_object(data):
         raw_data = data['RawData']
-
+        breakpoint()
         if data['Failure'] is None:
             if data['Fromcache']:
                 return Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))

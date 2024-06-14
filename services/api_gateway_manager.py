@@ -24,7 +24,8 @@ class ApiGatewayManager:
         # option to add state code.
 
     def get_weatherbycity(self, model_weather: WeatherData, city_name: str, country_code: str = None,
-                          state_name: str = None):
+                          state_code: str = None):
+
         """
              Call 5 day / 3 hour forecast data at:    https://openweathermap.org/forecast5#name5
              get_weather by city:  gets(model_weather: WeatherData ,cityName: str, country_code: str )
@@ -37,9 +38,9 @@ class ApiGatewayManager:
                         RawData                    : None | data
                         Fromcache                  : None | 1 | 0
         """
-        cache_key = model_weather.get_cache_key(city_name, country_code, state_name)
-
-        self.print_timesinfo(city_name)  # Implement but not here. ##$REFACTOR##$
+        cache_key = model_weather.get_cache_key(city_name, country_code, state_code)
+        breakpoint()  # check what is state_codecach
+        # self.print_timesinfo(city_name)  # TO DO - Implement but not here. ##$REFACTOR##$
 
         if not (model_weather.is_cache_valid(cache_key)):
             # if the cache doesnt have this data or the data retrieved more than 2 hours, consider old data
@@ -69,7 +70,7 @@ class ApiGatewayManager:
                 data = response.json()
                 ret_city = data['city']['name']
                 ret_country = data['city']['country']
-                ret_state = state_name #  data['city']['country']['state']  # no such state, lat and lon will be different
+                ret_state = state_code #  data['city']['country']['state']  # no such state, lat and lon will be different
 
                 self.model_weather.ret_stat_dic = {"Failure": "None", "RetCity": ret_city, "RetCountry": ret_country,
                                                    "RetState": ret_state, "RawData": data, "Fromcache": False}  # setter
@@ -88,9 +89,3 @@ class ApiGatewayManager:
             self.model_weather.ret_stat_dic = {"Failure": None, "RetCity": self.city_name,
                                                "RetCountry": self.country_code,
                                                "RetState": self.state_code, "RawData": cache_data, "Fromcache": True}
-
-    def print_forecastdata(self, forecast_data):
-        pass
-
-    def print_timesinfo(self, cityName):
-        pass

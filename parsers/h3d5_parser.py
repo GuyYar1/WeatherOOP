@@ -23,4 +23,4 @@ class H3D5_Parser(BaseParser):
         apicall.get_weatherbycity(wc, self.city_name, self.country_code, self.state_code)
         print(wc.ret_stat_dic)  # remove it I'm here continue
         # Raise an event when data is ready
-        self.data_ready_event.trigger(wc) # wc is going directly to the handler of WeatherManager name on_data_ready
+        self.data_ready_event.trigger(wc)  # wc is going directly to the handler of WeatherManager name on_data_ready
