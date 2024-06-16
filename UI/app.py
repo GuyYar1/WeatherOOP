@@ -15,6 +15,7 @@ from services.WeatherServicePrinter import WeatherServicePrinter  ##..services
 import streamlit as st
 # import pdb
 # pdb.set_trace()
+
 # How to run: open powershell type be on the root : streamlit run UI/app.py
 
 async def main():
@@ -24,30 +25,27 @@ async def main():
     country = st.text_input('Enter country code (optional)', 'US')
     state = st.text_input('Enter state code (optional)', 'IL')
 
+    # if city is None:
+    #     city = ""
+    # if country is None:
+    #     country = ""
 
     if st.button('Get Weather'):
         weather_srv_obj = WeatherServicePrinter()
-        # breakpoint()
+        breakpoint()
         weather_srv_obj.get_all_forcast(city, country, state)
         await weather_srv_obj.print_data()
 
         while True:
-            try:
-                next_item = await weather_srv_obj.get_from_queue()
-                st.write(next_item)
-                st.write("-" * 20)
-                # Clear the task after processing
-                asyncio.current_task().cancel()  # Cancel the current task
-                #print(sys.path)
-                #st.write(sys.path)
-            except asyncio.CancelledError:
-                break
+            next_item = await weather_srv_obj.get_from_queue()
+            st.write(next_item)
+            st.write("-" * 20)
+            #print(sys.path)
+            #st.write(sys.path)
     else:
         st.write('Failed to retrieve weather data.')
         # async for strprint in queue_manager.consumer(): Yield not return
         st.write("-" * 20)
-        # Clear the task after processing
-        asyncio.current_task().cancel()  # Cancel the current task
 
 
 if __name__ == "__main__":
