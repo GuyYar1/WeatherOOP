@@ -1,14 +1,14 @@
 import datetime
 from utils.TimeUtils import *
-import datetime
+
 
 class Deserializer_Factory:
     @staticmethod
-    def from_raw_data(raw_data, city=None):
+    async def from_raw_data(raw_data, city=None):
         st_all = ""  # Initialize st_all before the loop
 
-        if city and city in raw_data:
-            st_all += Deserializer_Factory.get_citytime(city)
+        if city is not None:  # and city in raw_data:
+            st_all += await Deserializer_Factory.get_citytime(city)
 
         for forecast_data in raw_data:
             st_all += Deserializer_Factory.print_forecastdata(forecast_data)

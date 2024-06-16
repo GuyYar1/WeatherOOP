@@ -27,8 +27,13 @@ class Queue_manager:
         await self.queue.put(item)
 
     async def get_next_item(self):
-        return await self.queue.get()
-        #read about Yield later
+        if not self.queue.empty():
+            return await self.queue.get()
+        else:
+            return "No other Item, all is dequeued"
+            # raise ValueError("The queue is empty")
+
+    # read about Yield later
 
 
 # How Does asyncio.Queue Work?

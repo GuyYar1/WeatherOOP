@@ -1,14 +1,8 @@
-import tracemalloc
-import requests
-import asyncio
-import datetime
-from models.cache import *
-from models.weather_data import WeatherData as m
-from parsers.base_parser import BaseParser
-from utils.event import Event
-from services.queue_manager import Queue_manager
+from parsers.base_parser import *
+from services.queue_manager import *
+from utils.event import *
 
-# import pdb ## Enable trace while using the run and not the debug mode
+from
 
 class WeatherManager:
     """This class manages the parsers and commands them to fetch data. """
@@ -17,7 +11,7 @@ class WeatherManager:
         self.data_ready_event = Event()
         self.queue_m = Queue_manager()
 
-    def add_parser(self, parser: BaseParser):
+    async def add_parser(self, parser: BaseParser):
         self.parsers.append(parser)
         # when data_ready_event of the parser itself which came from the BaseParser is triggered (wc)
         # the handler will be set to the WeatherManager function: on_data_ready
@@ -30,29 +24,17 @@ class WeatherManager:
             await parser.fetch_data()
 
     async def on_data_ready(self, data):
+        """This will append self.on_data_ready to the list of handlers for the last parser’s data_ready_event.
+         When trigger is called on that event, it will execute all handlers in the list.
+          If self.on_data_ready is an asynchronous function,
+         it will be scheduled as a task in the event loop; otherwise, it will be called directly."""
         # Handle the event when data is ready, so first do fetch
-        #breakpoint()
-        # tracemalloc.start()
-        # snapshot = tracemalloc.take_snapshot()
-        # top_stats = snapshot.statistics('lineno')
-        # Start the producer and consumer tasks
-        # breakpoint()
-        # producer_task = await asyncio.create_task(self.queue_m.add_to_queue(
-        #                                     "Data is ready and saved:" + str(data.serializedata())
-        #                                     ))
-
         serialized_data = await data.serializedata()
-
+        ## print("serialized_data" + serialized_data)
         # Start the producer task
-        producer_task = await self.queue_m.add_to_queue(
+        await self.queue_m.add_to_queue(
             "Data is ready and saved: " + str(serialized_data)
         )
-
-        # await asyncio.gather(producer_task) # is there a meaning for only producer_task - check
-        print("on_data_ready")
-        # for stat in top_stats[:10]:
-        #     print(stat)
-        # breakpoint()
 
     async def get_from_queue(self):
         return await self.queue_m.get_next_item()

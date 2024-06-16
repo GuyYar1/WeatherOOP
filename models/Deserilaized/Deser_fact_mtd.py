@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 # Abstract Product (DeserializedObject) representing the product interface
 class DeserializedObject(ABC):
-    """This is To do list , arrange the semi like deserialize  but on a real pattern method"""
+    """Not In use !! This is To do list , arrange the semi like deserialize  but on a real pattern method"""
     @abstractmethod
     def process(self):
         pass

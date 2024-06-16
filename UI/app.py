@@ -38,7 +38,7 @@ async def main():
                 st.write("-" * 20)
                 # Clear the task after processing
                 asyncio.current_task().cancel()  # Cancel the current task
-                #print(sys.path)
+                ## print(sys.path)
                 #st.write(sys.path)
             except asyncio.CancelledError:
                 break

@@ -49,8 +49,8 @@ class ApiGatewayManager:
             # appid = "8fc9d67f835721026f13442e85c59884"  # EncodingUtils.encode_to_base64 doesn't support
 
             if not check_internet():
-                # print(f"check your internet connection - seems that you have an issue\n")
-                # print(f"Your query is not in the mem cache or file cache, fix the issue and re run")
+                # # print(f"check your internet connection - seems that you have an issue\n")
+                # # print(f"Your query is not in the mem cache or file cache, fix the issue and re run")
                 self.model_weather.ret_stat_dic = {"Failure": "Connection", "RetCity": None, "RetCountry": None,
                                                    "RetState": None, "RawData": None, "Fromcache": None}
                 exit()  # #OUT
@@ -63,7 +63,7 @@ class ApiGatewayManager:
                                                 "q": self.city_name + "," + self.state_code + "," + self.country_code
                                                 , "units": units, "appid": appid
                                                         })
-            print("Data retrieved by restfull API gateway ...")
+            # print("Data retrieved by restfull API gateway ...")
             # # Check if the request was successful
             if response.status_code == 200:
                 # Parse the JSON response
@@ -74,17 +74,17 @@ class ApiGatewayManager:
 
                 self.model_weather.ret_stat_dic = {"Failure": "None", "RetCity": ret_city, "RetCountry": ret_country,
                                                    "RetState": ret_state, "RawData": data, "Fromcache": False}  # setter
-                print(f"Weather Forecast for {ret_city}, {ret_state} , {ret_country}. "
+                # print(f"Weather Forecast for {ret_city}, {ret_state} , {ret_country}. "
                       f"Please ensure that this is what you requested \n")
                 model_weather.set_cache(cache_key, data['list'])  # save to cache
                 return  # # OUT
             else:
-                print("Failed to retrieve data")
+                # print("Failed to retrieve data")
                 self.model_weather.ret_stat_dic = {"Failure": response.status_code, "RetCity": None, "RetCountry": None,
                                                    "RetState": None, "RawData": None, "Fromcache": None}
         else:
             #  the data retrived by caching
-            print("Data retrieved by mem cache or file cache")
+            # print("Data retrieved by mem cache or file cache")
             cache_data = model_weather.get_from_cache(cache_key)
             self.model_weather.ret_stat_dic = {"Failure": None, "RetCity": self.city_name,
                                                "RetCountry": self.country_code,

@@ -1,6 +1,5 @@
-# from common_imports import *
-from datetime import datetime
-
+from datetime import *
+from main import *
 import pytz
 
 
@@ -12,11 +11,11 @@ def get_time_zone_by_city(city_name):
                 return tz
         return None  # Return None if city not found in time zones
     except Exception as e:
-        print(f"Error occurred: {e}")
+        # print(f"Error occurred: {e}")
         return None
 
 
-def get_current_time_by_city(city_name):
+async def get_current_time_by_city(city_name):
     try:
         # Get time zone
         time_zone = pytz.timezone(get_time_zone_by_city(city_name))
