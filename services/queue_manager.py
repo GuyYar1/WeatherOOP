@@ -27,6 +27,7 @@ class Queue_manager:
         await self.queue.put(item)
 
     async def get_next_item(self):
+        await asyncio.sleep(3)  # Delay for 3 seconds
         if not self.queue.empty():
             return await self.queue.get()
         else:

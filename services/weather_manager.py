@@ -29,6 +29,7 @@ class WeatherManager:
         # Handle the event when data is ready, so first do fetch
         serialized_data = await data.serializedata()
         ## print("serialized_data" + serialized_data)
+        await asyncio.sleep(3)  # Delay for 3 seconds
         # Start the producer task
         await self.queue_m.add_to_queue(
             "Data is ready and saved: " + str(serialized_data)
