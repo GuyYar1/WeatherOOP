@@ -2,16 +2,13 @@ from services.WeatherServicePrinter import *
 from services.weather_manager import *
 from parsers.h3d5_parser import *
 from UI.tcl_ui_app import *
-import os
+from utils.debug_print import debug_print
 
 # Set this environment variable in your development environment
 # For example, in Unix-based systems: export DEBUG_MODE='true'
-debug_mode = os.getenv('DEBUG_MODE') == 'true'
 
-def debug_print(*args):
-    """print can block the async function flow so print only if you are in debug mode"""
-    if debug_mode:
-        print(*args)
+DEBUG_MODE = True
+
 
 async def main():
 
@@ -41,18 +38,18 @@ This structure ensures clear separation of concerns, making the codebase modular
         # a separate thread of the Ui will preform dequeue of get_all_forcast type:  asyncio.Queue()
         # Simulate GUI request to bring and save data which will use
         while True:
-            await asyncio.sleep(5)  # Delay for 7 seconds
+            await asyncio.sleep(2)  # Delay for 7 seconds
             next_item = await weather_srv_obj.get_from_queue()
 
             if next_item == "No other Item, all is dequeued":
-                print(next_item)
+                debug_print(next_item)
                 break
             elif "The current time is" in next_item:
                 # There is data
-                print(next_item)
-                print("-" * 20)
+                debug_print(next_item)
+                debug_print("-" * 20)
             else:
-                print('Failed to retrieve weather data.')
+                debug_print('Failed to retrieve weather data.')
                 # async for strprint in queue_manager.consumer(): Yield not return
                 # print("-" * 20)
 

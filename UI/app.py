@@ -13,7 +13,7 @@ support_abs_sys_path()
 # Now you can use absolute imports
 from services.WeatherServicePrinter import WeatherServicePrinter  ##..services
 import streamlit as st
-import pdb
+# import pdb  # debug on run mode , good for streamlit running
 # pdb.set_trace()
 # How to run: open powershell type be on the root : streamlit run UI/app.py
 
@@ -27,13 +27,13 @@ async def main():
 
     if st.button('Get Weather'):
         weather_srv_obj = WeatherServicePrinter()
-        breakpoint()
+        #breakpoint()
         await weather_srv_obj.get_all_forcast(city, country, state)
         await weather_srv_obj.print_data()
 
         while True:
             try:
-                await asyncio.sleep(5)  # Delay for 5 seconds
+                await asyncio.sleep(2)  # Delay for 5 seconds
                 next_item = await weather_srv_obj.get_from_queue()
 
                 if next_item == "No other Item, all is dequeued":
@@ -51,12 +51,12 @@ async def main():
 
             except asyncio.CancelledError:
                 break
-    else:
-        st.write('Failed to retrieve weather data.')
-        # async for strprint in queue_manager.consumer(): Yield not return
-        st.write("-" * 20)
-        # Clear the task after processing
-        #asyncio.current_task().cancel()  # Cancel the current task
+    # else:
+    #     st.write('Failed to retrieve weather data.')
+    #     # async for strprint in queue_manager.consumer(): Yield not return
+    #     st.write("-" * 20)
+    # Clear the task after processing
+    #asyncio.current_task().cancel()  # Cancel the current task
 
 
 if __name__ == "__main__":
