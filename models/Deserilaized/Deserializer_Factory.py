@@ -1,6 +1,5 @@
-import datetime
 from utils.TimeUtils import *
-
+import datetime
 
 class Deserializer_Factory:
     @staticmethod

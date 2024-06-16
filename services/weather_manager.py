@@ -2,8 +2,6 @@ from parsers.base_parser import *
 from services.queue_manager import *
 from utils.event import *
 
-from
-
 class WeatherManager:
     """This class manages the parsers and commands them to fetch data. """
     def __init__(self):

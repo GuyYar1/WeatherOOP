@@ -75,7 +75,7 @@ class ApiGatewayManager:
                 self.model_weather.ret_stat_dic = {"Failure": "None", "RetCity": ret_city, "RetCountry": ret_country,
                                                    "RetState": ret_state, "RawData": data, "Fromcache": False}  # setter
                 # print(f"Weather Forecast for {ret_city}, {ret_state} , {ret_country}. "
-                      f"Please ensure that this is what you requested \n")
+                # f"Please ensure that this is what you requested \n")
                 model_weather.set_cache(cache_key, data['list'])  # save to cache
                 return  # # OUT
             else:

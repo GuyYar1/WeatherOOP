@@ -33,6 +33,7 @@ async def main():
 
         while True:
             try:
+                await asyncio.sleep(5)  # Delay for 5 seconds
                 next_item = await weather_srv_obj.get_from_queue()
                 st.write(next_item)
                 st.write("-" * 20)
