@@ -39,7 +39,7 @@ class ApiGatewayManager:
                         Fromcache                  : None | 1 | 0
         """
         cache_key = model_weather.get_cache_key(city_name, country_code, state_code)
-        breakpoint()  # check what is state_codecach
+        # breakpoint()  # check what is state_codecach
         # self.print_timesinfo(city_name)  # TO DO - Implement but not here. ##$REFACTOR##$
 
         if not (model_weather.is_cache_valid(cache_key)):
