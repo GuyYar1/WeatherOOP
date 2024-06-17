@@ -1,5 +1,15 @@
 The current project is flat with no logic. Low separation to classes.currently there are utils and one class.
 
+Your review is required.
+
+# Git_Hub:
+https://github.com/GuyYar1/WeatherOOP
+
+# Link to site:
+Streamlit (biu0weather0oop.streamlit.app)
+
+I can set rich GUI after the backend is completed now.
+
 Refactor will include:
 
 A.Server side (weather server): API Server took its data from the DB transfer it to the client request it: ( our app) prepare the data and send us it DTO structure.
