@@ -28,13 +28,12 @@ async def main():
     if st.button('Get Weather'):
         weather_srv_obj = WeatherServicePrinter()
         #breakpoint()
-        await weather_srv_obj.get_all_forcast(city, country, state)
-        await weather_srv_obj.print_data()
+        weather_srv_obj.get_all_forcast(city, country, state)
+        weather_srv_obj.print_data()
 
         #while True:
         #try:
-        await asyncio.sleep(2)  # Delay for 5 seconds
-        next_item = await weather_srv_obj.get_from_queue()
+        next_item = weather_srv_obj.get_from_queue()
 
         if next_item == "No other Item, all is dequeued":
             st.write(next_item)

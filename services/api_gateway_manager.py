@@ -39,7 +39,8 @@ class ApiGatewayManager:
                         Fromcache                  : None | 1 | 0
         """
         cache_key = model_weather.get_cache_key(city_name, country_code, state_code)
-        # breakpoint()  # check what is state_codecach
+        print("cache" + cache_key)
+        #breakpoint()  # check what is state_codecach
         # self.print_timesinfo(city_name)  # TO DO - Implement but not here. ##$REFACTOR##$
 
         if not (model_weather.is_cache_valid(cache_key)):
@@ -49,22 +50,28 @@ class ApiGatewayManager:
             # appid = "8fc9d67f835721026f13442e85c59884"  # EncodingUtils.encode_to_base64 doesn't support
 
             if not check_internet():
-                # # print(f"check your internet connection - seems that you have an issue\n")
+                print(f"check your internet connection - seems that you have an issue\n")
                 # # print(f"Your query is not in the mem cache or file cache, fix the issue and re run")
                 self.model_weather.ret_stat_dic = {"Failure": "Connection", "RetCity": None, "RetCountry": None,
                                                    "RetState": None, "RawData": None, "Fromcache": None}
                 exit()  # #OUT
 
-            if self.country_code is None:
+            print("city_name, country_code, state_code" + city_name + "," + country_code + "," + state_code)
+
+            if self.country_code is None or self.country_code == "":
+                #  breakpoint()
                 response = requests.get(api_url, params={"q": self.city_name, "units": units, "appid": appid})
+                print("self.country_code is None")
             # api.openweathermap.org/data/2.5/forecast?q=London&units=metric&appid=8fc9d67f835721026f13442e85c59884
             else:
+                #  breakpoint()
                 response = requests.get(api_url, params={
                                                 "q": self.city_name + "," + self.state_code + "," + self.country_code
-                                                , "units": units, "appid": appid
-                                                        })
+                                                , "units": units, "appid": appid})
+                print("self.country_code is not None")
             # print("Data retrieved by restfull API gateway ...")
             # # Check if the request was successful
+
             if response.status_code == 200:
                 # Parse the JSON response
                 data = response.json()
@@ -72,20 +79,33 @@ class ApiGatewayManager:
                 ret_country = data['city']['country']
                 ret_state = state_code #  data['city']['country']['state']  # no such state, lat and lon will be different
 
-                self.model_weather.ret_stat_dic = {"Failure": "None", "RetCity": ret_city, "RetCountry": ret_country,
+                self.model_weather.ret_stat_dic = {"Failure": None, "RetCity": ret_city, "RetCountry": ret_country,
                                                    "RetState": ret_state, "RawData": data, "Fromcache": False}  # setter
-                # print(f"Weather Forecast for {ret_city}, {ret_state} , {ret_country}. "
+                print(f"Weather Forecast ApiCall for {ret_city}, {ret_state} , {ret_country}. ")
                 # f"Please ensure that this is what you requested \n")
                 model_weather.set_cache(cache_key, data['list'])  # save to cache
                 return  # # OUT
             else:
-                # print("Failed to retrieve data")
+                print("Failed to retrieve data")
                 self.model_weather.ret_stat_dic = {"Failure": response.status_code, "RetCity": None, "RetCountry": None,
                                                    "RetState": None, "RawData": None, "Fromcache": None}
         else:
             #  the data retrived by caching
-            # print("Data retrieved by mem cache or file cache")
+            print("Data retrieved by mem cache or file cache")
             cache_data = model_weather.get_from_cache(cache_key)
             self.model_weather.ret_stat_dic = {"Failure": None, "RetCity": self.city_name,
                                                "RetCountry": self.country_code,
                                                "RetState": self.state_code, "RawData": cache_data, "Fromcache": True}
+
+# City Name,Country Code,State/Region Name,State Code
+# Toronto,CA,Ontario,ON
+# Mexico City,MX,Mexico City,DIF
+# London,GB,England,ENG
+# Paris,FR,Île-de-France,IDF
+# Munich,DE,Bavaria,BY
+# Tokyo,JP,Tokyo,13
+# Sydney,AU,New South Wales,NSW
+# Delhi,IN,Delhi,DL
+# São Paulo,BR,São Paulo,SP
+# Johannesburg,ZA,Gauteng,GT
+# New York City

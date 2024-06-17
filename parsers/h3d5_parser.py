@@ -1,4 +1,3 @@
-import asyncio
 from parsers.base_parser import BaseParser
 from models.weather_data import WeatherData as m
 from services.api_gateway_manager import ApiGatewayManager
@@ -13,7 +12,7 @@ class H3D5_Parser(BaseParser):
         self.state_code = state_code
         # option to add state code.
 
-    async def fetch_data(self):
+    def fetch_data(self):
         # Simulate fetching data
         # await asyncio.sleep(2)
         wc = m()   # Empty
@@ -23,4 +22,5 @@ class H3D5_Parser(BaseParser):
         apicall.get_weatherbycity(wc, self.city_name, self.country_code, self.state_code)
         # print(wc.ret_stat_dic)  # remove it I'm here continue
         # Raise an event when data is ready
+
         self.data_ready_event.trigger(wc)  # wc is going directly to the handler of WeatherManager name on_data_ready

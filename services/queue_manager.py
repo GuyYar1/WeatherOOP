@@ -1,5 +1,4 @@
-import asyncio
-from asyncio import Queue
+from queue import Queue, Empty
 
 
 class Queue_manager:
@@ -7,13 +6,6 @@ class Queue_manager:
     _initialized = False
 
     def __new__(cls, *args, **kwargs):
-        """
-        The __new__ method in Python is responsible for creating a new instance of a class.
-        It is called before the __init__ method and is used to control the creation of a new instance.
-        This is different from __init__, which initializes the instance after it is created.
-        :param args:
-        :param kwargs:
-        """
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)
             cls._instance.queue = Queue()
@@ -23,20 +15,61 @@ class Queue_manager:
         if not self._initialized:
             self.__class__._initialized = True
 
-    async def add_to_queue(self, item):
-        await self.queue.put(item)
+    def add_to_queue(self, item):
+        self.queue.put(item)
 
-    async def get_next_item(self):
+    def get_next_item(self):
         try:
             if not self.queue.empty():
-                return await self.queue.get()
+                return self.queue.get_nowait()
             else:
                 return "No other Item, all is dequeued"
-
+        except Empty:
+            return "Queue is empty"
         except Exception as e:
             # Code to handle the exception
             print(f"An error occurred: {e}")
 
+
+
+# from asyncio import Queue
+#
+#
+# class Queue_manager:
+#     _instance = None
+#     _initialized = False
+#
+#     def __new__(cls, *args, **kwargs):
+#         """
+#         The __new__ method in Python is responsible for creating a new instance of a class.
+#         It is called before the __init__ method and is used to control the creation of a new instance.
+#         This is different from __init__, which initializes the instance after it is created.
+#         :param args:
+#         :param kwargs:
+#         """
+#         if cls._instance is None:
+#             cls._instance = super().__new__(cls, *args, **kwargs)
+#             cls._instance.queue = Queue()
+#         return cls._instance
+#
+#     def __init__(self):
+#         if not self._initialized:
+#             self.__class__._initialized = True
+#
+#     async def add_to_queue(self, item):
+#         await self.queue.put(item)
+#
+#     def get_next_item(self):
+#         try:
+#             if not self.queue.empty():
+#                 return self.queue.get()
+#             else:
+#                 return "No other Item, all is dequeued"
+#
+#         except Exception as e:
+#             # Code to handle the exception
+#             print(f"An error occurred: {e}")
+#
 
 # How Does asyncio.Queue Work?
 # A Queue follows the First-In-First-Out (FIFO) order, meaning that the first item added to the queue is the first one to be retrieved.

@@ -29,8 +29,8 @@ class WeatherData(Cachebase):
         return (f"Date & Time: {self.date_time}\nTemperature: {self.temperature:.2f}°C\nWeather: "
                 f"{self.weather_description}\n{'-' * 20}")
 
-    async def serializedata(self):
+    def serializedata(self):
         """Serialize the data to a dictionary"""
         dictt = self.ret_stat_dic
-        return await module.Deserializer_Factory.create_deserialized_object(dictt)
+        return module.Deserializer_Factory.create_deserialized_object(dictt)
 

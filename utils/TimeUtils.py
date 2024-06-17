@@ -15,7 +15,7 @@ def get_time_zone_by_city(city_name):
         return None
 
 
-async def get_current_time_by_city(city_name):
+def get_current_time_by_city(city_name):
     try:
         # Get time zone
         time_zone = pytz.timezone(get_time_zone_by_city(city_name))

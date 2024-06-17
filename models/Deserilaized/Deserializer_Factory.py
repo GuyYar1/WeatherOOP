@@ -1,23 +1,30 @@
 from utils.TimeUtils import *
 import datetime
 
+
 class Deserializer_Factory:
     @staticmethod
-    async def from_raw_data(raw_data, city=None):
+    def from_raw_data(raw_data, city=None):
         st_all = ""  # Initialize st_all before the loop
 
         if city is not None:  # and city in raw_data:
-            st_all += await Deserializer_Factory.get_citytime(city)
+            st_all += Deserializer_Factory.get_citytime(city)
 
-        for forecast_data in raw_data:
+        for forecast_data in raw_data["list"]:
             st_all += Deserializer_Factory.print_forecastdata(forecast_data)
 
         return st_all
 
     @staticmethod
-    def from_cached_data(cached_data: dict):
+    def from_cached_data(cached_data: dict, city=None):
         # Deserialization logic for cached data
-        pass
+        st_all = ""  # Initialize st_all before the loop
+
+        if city is not None:  # and city in raw_data:
+            st_all += Deserializer_Factory.get_citytime(city)
+        for forecast_data in cached_data:
+            st_all += Deserializer_Factory.print_forecastdata(forecast_data)
+        return st_all
 
     @staticmethod
     def handle_error(error_data: dict):
@@ -30,13 +37,14 @@ class Deserializer_Factory:
         }
 
     @staticmethod
-    async def create_deserialized_object(data):
+    def create_deserialized_object(data):
         raw_data = data['RawData']
+        # # from cache it filled with None and from raw data "None"
         if data['Failure'] is None:
             if data['Fromcache']:
-                return await Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))
+                return Deserializer_Factory.from_cached_data(raw_data, data.get('RetCity'))
             else:
-                return await Deserializer_Factory.from_raw_data(raw_data)
+                return Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))
         else:
             return Deserializer_Factory.handle_error(data['Failure'])
 
@@ -47,27 +55,24 @@ class Deserializer_Factory:
         humidity = forecast_data['main']['humidity']  # Units are metric: Celsius
         weather_description = forecast_data['weather'][0]['description']
 
-        st = (
-            f"Date & Time: {dt}\n"
-            f"Temperature: {temp:.2f}°C\n"
-            f"Humidity: {humidity:.2f}\n"
-            f"Weather: {weather_description}\n"
-            f"{'-' * 20}\n"
-        )
+        st = (f"\n"
+              f"Date & Time: {dt}\n"
+              f"Temperature: {temp:.2f}°C\n"
+              f"Humidity: {humidity:.2f}\n"
+              f"Weather: {weather_description}\n"
+              f"{'-' * 20}\n"
+              )
 
         return st
 
     @staticmethod
-    async def get_citytime(city_name):
+    def get_citytime(city_name):
         """Concatenate city time information to st_all"""
 
         timenow = datetime.datetime.now()
         formatted_time = timenow.strftime("%Y-%m-%d %H:%M:%S")  # Custom format without "T"
-        current_timeTZ = await get_current_time_by_city(city_name)
+        current_timeTZ = get_current_time_by_city(city_name)
         return f"The current time is: {formatted_time}.  {current_timeTZ}\n"
-
-
-
 
 # import datetime
 # from utils.TimeUtils import *
