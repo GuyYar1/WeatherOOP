@@ -15,7 +15,7 @@ class H3D5_Parser(BaseParser):
 
     async def fetch_data(self):
         # Simulate fetching data
-        await asyncio.sleep(2)
+        # await asyncio.sleep(2)
         wc = m()   # Empty
         #model_weather: WeatherData, city_name: str, country_code: str = None
         apicall = ApiGatewayManager(wc, self.city_name, self.country_code, self.state_code)

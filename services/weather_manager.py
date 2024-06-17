@@ -2,6 +2,7 @@ from parsers.base_parser import *
 from services.queue_manager import *
 from utils.event import *
 
+
 class WeatherManager:
     """This class manages the parsers and commands them to fetch data. """
     def __init__(self):
@@ -11,11 +12,11 @@ class WeatherManager:
 
     async def add_parser(self, parser: BaseParser):
         self.parsers.append(parser)
+        self.parsers[-1].data_ready_event += self.on_data_ready
         # when data_ready_event of the parser itself which came from the BaseParser is triggered (wc)
         # the handler will be set to the WeatherManager function: on_data_ready
         # so when the parser event triggered the WeatherManager on_data_ready is called and executed.
-        self.parsers[-1].data_ready_event += self.on_data_ready
-        # breakpoint()
+
 
     async def fetch_and_save_data(self):
         for parser in self.parsers:
@@ -28,12 +29,14 @@ class WeatherManager:
          it will be scheduled as a task in the event loop; otherwise, it will be called directly."""
         # Handle the event when data is ready, so first do fetch
         serialized_data = await data.serializedata()
-        ## print("serialized_data" + serialized_data)
-        await asyncio.sleep(3)  # Delay for 3 seconds
+        serialized_data = str(serialized_data)
+        # print("serialized_data" + serialized_data)
         # Start the producer task
+        print("add_to_queue")
         await self.queue_m.add_to_queue(
-            "Data is ready and saved: " + str(serialized_data)
+            "Data is ready and saved: " + serialized_data
         )
+        #await asyncio.sleep(7)  # Delay for 3 seconds
 
     async def get_from_queue(self):
         return await self.queue_m.get_next_item()

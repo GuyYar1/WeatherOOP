@@ -20,9 +20,6 @@ class WeatherServicePrinter:
     async def print_data(self):
         # Command the weather manager to fetch and save data
         await self.weather_manager.fetch_and_save_data()
-        # Print the data (simulation)
-        # Now the data of the parsers are inside the queue, call the UI print
-        # print("Weather data printed on screen.")
 
     async def get_from_queue(self):
         item = await self.weather_manager.get_from_queue()

@@ -1,6 +1,5 @@
 import asyncio
 
-
 class Event:
     """This file contains the event class to handle events. """
     def __init__(self):
@@ -11,7 +10,6 @@ class Event:
         self.handlers.append(handler)
         # breakpoint()
         return self
-
 
     def __isub__(self, handler):
         self.handlers.remove(handler)

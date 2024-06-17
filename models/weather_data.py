@@ -5,7 +5,7 @@ from models.Deserilaized import Deserializer_Factory as module
 class WeatherData(Cachebase):
     """This file contains the data model. """
     def __init__(self, date_time=None, temperature=None, humidity=None, weather_description=None):
-        super().__init__() # initiate base class cache
+        super().__init__()  # initiate base class cache
         # instance attributes
         self.date_time = date_time
         self.temperature = temperature
@@ -26,7 +26,8 @@ class WeatherData(Cachebase):
     def __str__(self):
         # When you call # print(obj) or str(obj)
         # let the user know what is the output if just call the
-        return f"Date & Time: {self.date_time}\nTemperature: {self.temperature:.2f}°C\nWeather: {self.weather_description}\n{'-' * 20}"
+        return (f"Date & Time: {self.date_time}\nTemperature: {self.temperature:.2f}°C\nWeather: "
+                f"{self.weather_description}\n{'-' * 20}")
 
     async def serializedata(self):
         """Serialize the data to a dictionary"""

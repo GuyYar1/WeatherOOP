@@ -1,3 +1,25 @@
+#   Validated steps ,remove old if exists and install new:
+#   pip uninstall poetry
+#
+# #install using scope:
+# 1. Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# 2. Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+# 3. scoop install pipx
+# 4. pipx ensurepath
+# 4. pipx install poetry
+# 5. where poetry
+# 6. poetry shel
+# 7. (weatheroop-py3.11) PS C:\Users\DELL\Documents\GitHub\WeatherOOP>
+#
+# # cmd:
+# C:\Users\DELL>where poetry
+#     C:\Python311\Scripts\poetry.exe - should be removed deleted
+#     c:\Users\DELL\.local\bin\poetry.exe
+
+# pycharm -- settings.
+# remove all interpreters set only one with check box.
+# C:/Users/DELL/AppData/Local/pypoetry/Cache/virtualenvs/weatheroop-spqzF1Pk-py3.11/Scripts/python.exe
+
 # A   Let's create a concise step-by-step guide for starting a new Python project using Poetry, including the `poetry init` command:
 #
 # 1. **Install Poetry (if not already done):**
@@ -53,20 +75,7 @@
 
 # B  error:
 # module 'virtualenv.create.via_global_ref.builtin.cpython.mac_os' has no attribute 'CPython2macOsArmFramework'
-# PS C:\Users\DELL\Documents\GitHub\WeatherOOP> python -m venv venv
-# PS C:\Users\DELL\Documents\GitHub\WeatherOOP> venv\Scripts\activate
-# (venv) PS C:\Users\DELL\Documents\GitHub\WeatherOOP> pip install --require-hashes -r requirements.txt
-# Install all if there issues you may: remove  but first ask chatgpt.
-# (venv) PS C:\Users\DELL\Documents\GitHub\WeatherOOP> poetry shell
-# Spawning shell within C:\Users\DELL\Documents\GitHub\WeatherOOP\venv
-# Windows PowerShell
-# Copyright (C) Microsoft Corporation. All rights reserved.
-#
-# Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
-#
-# (venv) PS C:\Users\DELL\Documents\GitHub\WeatherOOP>
-
-
+# don't handle it just use scope
 
 #  C   While the poetry export command is commonly used to generate a requirements.txt file, there are other useful commands in Poetry. Here are a few:
 #
