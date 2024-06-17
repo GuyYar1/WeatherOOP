@@ -23,5 +23,4 @@ class WeatherServicePrinter:
 
     def get_from_queue(self):
         item = self.weather_manager.get_from_queue()
-        print("item"+ item)
         return item
