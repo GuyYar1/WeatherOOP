@@ -38,7 +38,7 @@ async def main():
         #while True:
         #try:
         next_item = weather_srv_obj.get_from_queue()
-        breakpoint()
+        
         df = await Plot_PerDay_UserSlection()
 
         # Plotting the line chart
