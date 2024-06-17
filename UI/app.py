@@ -31,26 +31,26 @@ async def main():
         await weather_srv_obj.get_all_forcast(city, country, state)
         await weather_srv_obj.print_data()
 
-        while True:
-            try:
-                await asyncio.sleep(2)  # Delay for 5 seconds
-                next_item = await weather_srv_obj.get_from_queue()
+        #while True:
+        #try:
+        await asyncio.sleep(2)  # Delay for 5 seconds
+        next_item = await weather_srv_obj.get_from_queue()
 
-                if next_item == "No other Item, all is dequeued":
-                    st.write(next_item)
-                    break
-                elif "The current time is" in next_item:
-                    # There is data
-                    st.write(next_item)
-                    st.write("-" * 20)
-                else:
-                    st.write('Failed to retrieve weather data.')
-                #asyncio.current_task().cancel()  # Cancel the current task
-                ## print(sys.path)
-                #st.write(sys.path)
+        if next_item == "No other Item, all is dequeued":
+            st.write(next_item)
+            # break
+        elif "The current time is" in next_item:
+            # There is data
+            st.write(next_item)
+            st.write("-" * 20)
+        else:
+            st.write('Failed to retrieve weather data.')
+        #asyncio.current_task().cancel()  # Cancel the current task
+        ## print(sys.path)
+        #st.write(sys.path)
 
-            except asyncio.CancelledError:
-                break
+        # except asyncio.CancelledError:
+            # # break
     # else:
     #     st.write('Failed to retrieve weather data.')
     #     # async for strprint in queue_manager.consumer(): Yield not return
