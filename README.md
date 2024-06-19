@@ -1,11 +1,12 @@
-The current project is flat with no logic. Low separation to classes.currently there are utils and one class.
+The current project is an improvment of the  which was with no logic. Low separation to classes.currently there are utils and one class.
+Here I used OOP design , pattern(factory, Single tone, Injection , SOLID ) queue , Cache ,Persistance ,cache, encription for API key. more ...
 
-Your review is required.
+Your review is wellcome.
 
 # Git_Hub:
 https://github.com/GuyYar1/WeatherOOP
 
-# Link to site:
+# Link to site-streamlit :
 Streamlit (biu0weather0oop.streamlit.app)
 
 I can set rich GUI after the backend is completed now.
