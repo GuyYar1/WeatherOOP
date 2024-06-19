@@ -12,6 +12,7 @@ class WeatherData(Cachebase):
         self.humidity = humidity
         self.weather_description = weather_description
         self._ret_stat_dic = {}  # private but not protected with __
+        self.dict_whole = {"aggrtext": "", "dataplot": {}}
 
     @property
     def ret_stat_dic(self):
@@ -29,8 +30,10 @@ class WeatherData(Cachebase):
         return (f"Date & Time: {self.date_time}\nTemperature: {self.temperature:.2f}°C\nWeather: "
                 f"{self.weather_description}\n{'-' * 20}")
 
+
     def serializedata(self):
         """Serialize the data to a dictionary"""
         dictt = self.ret_stat_dic
-        return module.Deserializer_Factory.create_deserialized_object(dictt)
-
+        self.dict_whole["aggrtext"] = module.Deserializer_Factory.create_deserialized_object(dictt)
+        self.dict_whole["dataplot"] = module.Deserializer_Factory.create_plot_data(dictt)
+        return self.dict_whole

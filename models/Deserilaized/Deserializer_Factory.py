@@ -3,6 +3,40 @@ import datetime
 
 
 class Deserializer_Factory:
+
+    @staticmethod
+    def create_deserialized_object(data):
+        raw_data = data['RawData']
+        # # from cache it filled with None and from raw data "None"
+        instance = Deserializer_Factory()
+
+        if data['Failure'] is None:
+            if data['Fromcache']:
+                return Deserializer_Factory.from_cached_data(raw_data, data.get('RetCity'))
+            else:
+                return Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))
+        else:
+            return Deserializer_Factory.handle_error(data['Failure'])
+
+    @staticmethod
+    def create_plot_data(raw_data):
+
+        data = {'Date': [], 'Temperature': [], 'Humidity': []}
+
+        if raw_data["Failure"] is not None:
+            return data  # # failure no data, check why
+        else:
+            if raw_data['Fromcache']:
+                forecast_dict = raw_data["RawData"]
+            else:
+                forecast_dict = raw_data['RawData']['list']
+
+        for forecast_data in forecast_dict:
+            data['Date'].append(forecast_data['dt_txt'])
+            data['Temperature'].append(forecast_data['main']['temp'])
+            data['Humidity'].append(forecast_data['main']['humidity'])
+        return data
+
     @staticmethod
     def from_raw_data(raw_data, city=None):
         st_all = ""  # Initialize st_all before the loop
@@ -35,18 +69,6 @@ class Deserializer_Factory:
             "humidity": "",
             "description": ""  # self.weather_description
         }
-
-    @staticmethod
-    def create_deserialized_object(data):
-        raw_data = data['RawData']
-        # # from cache it filled with None and from raw data "None"
-        if data['Failure'] is None:
-            if data['Fromcache']:
-                return Deserializer_Factory.from_cached_data(raw_data, data.get('RetCity'))
-            else:
-                return Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))
-        else:
-            return Deserializer_Factory.handle_error(data['Failure'])
 
     @staticmethod
     def print_forecastdata(forecast_data):

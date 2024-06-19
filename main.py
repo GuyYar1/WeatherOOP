@@ -1,5 +1,7 @@
 import os
 import time
+
+import services.plot_data
 from services.WeatherServicePrinter import *
 from services.weather_manager import *
 from parsers.h3d5_parser import *
@@ -13,7 +15,7 @@ import pdb
 DEBUG_MODE = True
 
 
-async def main():
+def main():
 
     """Explanation
 Main File: main.py initializes the necessary components and handles the GUI interaction using Streamlit.
@@ -46,14 +48,14 @@ This structure ensures clear separation of concerns, making the codebase modular
         # await asyncio.sleep(10)  # Delay for 2 seconds
         print("get_from_queue")
         next_item = weather_srv_obj.get_from_queue()
-        if next_item == "No other Item, all is dequeued":
-            print(next_item)
+        if next_item["aggrtext"] == "No other Item, all is dequeued":
+            print(next_item["aggrtext"])
             print("No other Item @@")
             #break
 
-        elif "The current time is" in next_item:
+        elif "The current time is" in next_item["aggrtext"]:
             # There is data
-            print(next_item)
+            print(next_item["aggrtext"])
             debug_print("-" * 20)
         else:
             debug_print('Failed to retrieve weather data.')
@@ -63,7 +65,7 @@ This structure ensures clear separation of concerns, making the codebase modular
 
 if __name__ == "__main__":
     import asyncio
-    asyncio.run(main())
+    main()
 
 
 

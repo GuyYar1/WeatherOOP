@@ -32,8 +32,8 @@ class WeatherManager:
         # Start the producer task
         print("add_to_queue")
         self.queue_m.add_to_queue(
-            "Data is ready and saved: " + serialized_data
-        )
+                                   serialized_data
+                                    )
 
 
     def get_from_queue(self):

@@ -1,7 +1,7 @@
 import sys
 import os
-import pandas as pd
-import pdb
+# import pdb
+
 
 def support_abs_sys_path():
     # Get the absolute path of the project root
@@ -15,11 +15,13 @@ support_abs_sys_path()
 # Now you can use absolute imports
 from services.WeatherServicePrinter import WeatherServicePrinter  ##..services
 import streamlit as st
-# import pdb  # debug on run mode , good for streamlit running
+from services.plot_data import *
+from services import plot_data
+import pdb  # debug on run mode , good for streamlit running
 # pdb.set_trace()
 # How to run: open powershell type be on the root : streamlit run UI/app.py
 
-async def main():
+def main():
     #breakpoint()
     st.title('                          Weather Forecast App                                                      ')
     text = "OOP Design {patterns,classes,Persistence Cache,Queue,Events,Encryption,serializers'}"
@@ -27,7 +29,6 @@ async def main():
     city = st.text_input('Enter city name', 'Springfield')
     country = st.text_input('Enter country code (optional)', 'US')
     state = st.text_input('Enter state code (optional)', 'IL')
-
 
     if st.button('Get Weather'):
         weather_srv_obj = WeatherServicePrinter()
@@ -38,46 +39,28 @@ async def main():
         #while True:
         #try:
         next_item = weather_srv_obj.get_from_queue()
-        
-        df = await Plot_PerDay_UserSlection()
+        #  #next_item format =>  {"textarea": str, "dict plot": dictplot --streamlit}
 
-        # Plotting the line chart
-        st.line_chart(df.set_index('Date'))
+        df = plot_data.Plot_data1.plot_per_day_user_section(next_item["dataplot"])
 
-        if next_item == "No other Item, all is dequeued":
-            st.write(next_item)
-            # break
-        elif "The current time is" in next_item:
+        # Create a DataFrame for plotting
+        df = pd.DataFrame(df)
+
+        # Set 'Date' as the index for the DataFrame
+        df.set_index('Date', inplace=True)
+
+        # Create a bar chart with dates on the x-axis
+        st.bar_chart(df)
+
+        if next_item["aggrtext"] == "No other Item, all is dequeued":
+            st.write(next_item["aggrtext"])
+        elif "The current time is" in next_item["aggrtext"]:
             # There is data
-            st.write(next_item)
+            st.write(next_item["aggrtext"])
             st.write("-" * 20)
         else:
             st.write('Failed to retrieve weather data.')
-        #asyncio.current_task().cancel()  # Cancel the current task
-        ## print(sys.path)
-        #st.write(sys.path)
-
-        # except asyncio.CancelledError:
-            # # break
-    # else:
-    #     st.write('Failed to retrieve weather data.')
-    #     # async for strprint in queue_manager.consumer(): Yield not return
-    #     st.write("-" * 20)
-    # Clear the task after processing
-    #asyncio.current_task().cancel()  # Cancel the current task
-
-
-async def Plot_PerDay_UserSlection():
-    data = {
-        'Date': ['2024-06-17', '2024-06-18', '2024-06-19'],
-        'Temperature': [22, 24, 21],
-        'Humidity': [60, 65, 55]
-    }
-    df = pd.DataFrame(data)
-    df['Date'] = pd.to_datetime(df['Date'])  # Ensure the Date column is in datetime format
-    return df
 
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())  # # Run the async main function
+    main()  # # Run the  main function

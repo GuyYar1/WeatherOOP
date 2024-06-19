@@ -22,5 +22,6 @@ class WeatherServicePrinter:
         self.weather_manager.fetch_and_save_data()
 
     def get_from_queue(self):
+        #  item = {"aggrtext": "", "dataplot": {}}
         item = self.weather_manager.get_from_queue()
         return item

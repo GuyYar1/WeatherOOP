@@ -54,7 +54,7 @@ class ApiGatewayManager:
                 # # print(f"Your query is not in the mem cache or file cache, fix the issue and re run")
                 self.model_weather.ret_stat_dic = {"Failure": "Connection", "RetCity": None, "RetCountry": None,
                                                    "RetState": None, "RawData": None, "Fromcache": None}
-                exit()  # #OUT
+                return
 
             print("city_name, country_code, state_code" + city_name + "," + country_code + "," + state_code)
 
