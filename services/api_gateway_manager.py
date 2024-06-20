@@ -1,6 +1,6 @@
-from utils import EncodingUtils
-from utils.EncodingUtils import extract_api_key
-from utils.IpNetUtil import check_internet
+from utils import Encoding_Utils
+from utils.Encoding_Utils import extract_api_key
+from utils.Ip_Net_Util import check_internet
 from models.weather_data import WeatherData
 from models.cache import *
 import requests
@@ -10,7 +10,7 @@ def api_serve():
     """internal this is a function and not a method.  called from the class """
     api_url = "http://api.openweathermap.org/data/2.5/forecast"
     units = "metric"
-    appidsufiix = EncodingUtils.readprofile("file.env")
+    appidsufiix = Encoding_Utils.readprofile("file.env")
     appid = extract_api_key(appidsufiix)
     return api_url, appid, units
 

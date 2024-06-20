@@ -1,22 +1,22 @@
-from utils.TimeUtils import *
+from utils.Time_Utils import *
 import datetime
 
 
-class Deserializer_Factory:
+class DeserializerFactory:
 
     @staticmethod
     def create_deserialized_object(data):
         raw_data = data['RawData']
         # # from cache it filled with None and from raw data "None"
-        instance = Deserializer_Factory()
+        instance = DeserializerFactory()
 
         if data['Failure'] is None:
             if data['Fromcache']:
-                return Deserializer_Factory.from_cached_data(raw_data, data.get('RetCity'))
+                return DeserializerFactory.from_cached_data(raw_data, data.get('RetCity'))
             else:
-                return Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))
+                return DeserializerFactory.from_raw_data(raw_data, data.get('RetCity'))
         else:
-            return Deserializer_Factory.handle_error(data['Failure'])
+            return DeserializerFactory.handle_error(data['Failure'])
 
     @staticmethod
     def create_plot_data(raw_data):
@@ -42,10 +42,10 @@ class Deserializer_Factory:
         st_all = ""  # Initialize st_all before the loop
 
         if city is not None:  # and city in raw_data:
-            st_all += Deserializer_Factory.get_citytime(city)
+            st_all += DeserializerFactory.get_citytime(city)
 
         for forecast_data in raw_data["list"]:
-            st_all += Deserializer_Factory.print_forecastdata(forecast_data)
+            st_all += DeserializerFactory.print_forecastdata(forecast_data)
 
         return st_all
 
@@ -55,9 +55,9 @@ class Deserializer_Factory:
         st_all = ""  # Initialize st_all before the loop
 
         if city is not None:  # and city in raw_data:
-            st_all += Deserializer_Factory.get_citytime(city)
+            st_all += DeserializerFactory.get_citytime(city)
         for forecast_data in cached_data:
-            st_all += Deserializer_Factory.print_forecastdata(forecast_data)
+            st_all += DeserializerFactory.print_forecastdata(forecast_data)
         return st_all
 
     @staticmethod
@@ -100,16 +100,16 @@ class Deserializer_Factory:
 # from utils.TimeUtils import *
 # import datetime
 #
-# class Deserializer_Factory:
+# class DeserializerFactory:
 #     @staticmethod
 #     def from_raw_data(raw_data, city=None):
 #         st_all = ""  # Initialize st_all before the loop
 #
 #         if city and city in raw_data:
-#             st_all += Deserializer_Factory.get_citytime(city)
+#             st_all += DeserializerFactory.get_citytime(city)
 #
 #         for forecast_data in raw_data:
-#             st_all += Deserializer_Factory.print_forecastdata(forecast_data)
+#             st_all += DeserializerFactory.print_forecastdata(forecast_data)
 #
 #         return st_all
 #
@@ -134,13 +134,13 @@ class Deserializer_Factory:
 #         if data['Failure'] is None:
 #             if data['Fromcache']:
 #                 breakpoint()
-#                 return Deserializer_Factory.from_raw_data(raw_data, data.get('RetCity'))
+#                 return DeserializerFactory.from_raw_data(raw_data, data.get('RetCity'))
 #             else:
 #                 breakpoint()
-#                 return Deserializer_Factory.from_raw_data(raw_data)
+#                 return DeserializerFactory.from_raw_data(raw_data)
 #         else:
 #             breakpoint()
-#             return Deserializer_Factory.handle_error(data['Failure'])
+#             return DeserializerFactory.handle_error(data['Failure'])
 #
 #     @staticmethod
 #     def print_forecastdata(forecast_data):
@@ -170,7 +170,7 @@ class Deserializer_Factory:
 #
 
 # old below delete it after testing
-# class Deserializer_Factory:
+# class DeserializerFactory:
 #     @staticmethod
 #     def from_raw_data(raw_data, city):
 #     # Deserialization logic for raw data
@@ -179,9 +179,9 @@ class Deserializer_Factory:
 #         #city = city if city.isalpha() else "Adult"
 #
 #         if city.isalpha():
-#             st_all += Deserializer_Factory.get_citytime(raw_data[city])  # need to check
+#             st_all += DeserializerFactory.get_citytime(raw_data[city])  # need to check
 #         for forecast_data in raw_data:
-#             st_all += Deserializer_Factory.print_forecastdata(forecast_data)
+#             st_all += DeserializerFactory.print_forecastdata(forecast_data)
 #         return st_all
 #
 #     @staticmethod
@@ -203,11 +203,11 @@ class Deserializer_Factory:
 #     def create_deserialized_object(data):
 #         dict = data['RawData']
 #         if data['Failure'] is None and data['Fromcache']:
-#             return Deserializer_Factory.from_raw_data(dict, data['RetCity'])
+#             return DeserializerFactory.from_raw_data(dict, data['RetCity'])
 #         elif data['Failure'] is None and not data['Fromcache']:
-#             return Deserializer_Factory.from_raw_data(dict)
+#             return DeserializerFactory.from_raw_data(dict)
 #         elif data['Failure'] is not None:
-#             return Deserializer_Factory.from_raw_data(dict)
+#             return DeserializerFactory.from_raw_data(dict)
 #
 #     @staticmethod
 #     def print_forecastdata(forecast_data):

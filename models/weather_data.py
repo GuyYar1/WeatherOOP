@@ -34,6 +34,6 @@ class WeatherData(Cachebase):
     def serializedata(self):
         """Serialize the data to a dictionary"""
         dictt = self.ret_stat_dic
-        self.dict_whole["aggrtext"] = module.Deserializer_Factory.create_deserialized_object(dictt)
-        self.dict_whole["dataplot"] = module.Deserializer_Factory.create_plot_data(dictt)
+        self.dict_whole["aggrtext"] = module.DeserializerFactory.create_deserialized_object(dictt)
+        self.dict_whole["dataplot"] = module.DeserializerFactory.create_plot_data(dictt)
         return self.dict_whole

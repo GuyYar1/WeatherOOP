@@ -1,7 +1,6 @@
 import sys
 import os
-# import pdb
-
+import pdb
 
 def support_abs_sys_path():
     # Get the absolute path of the project root
@@ -10,19 +9,49 @@ def support_abs_sys_path():
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
 
+
+
 support_abs_sys_path()
 
 # Now you can use absolute imports
-from services.WeatherServicePrinter import WeatherServicePrinter  ##..services
+from services.Weather_Service_Printer import WeatherServicePrinter  ##..services
 import streamlit as st
 from services.plot_data import *
 from services import plot_data
+from menu import menu
+from UI.pages import *
+
+
 import pdb  # debug on run mode , good for streamlit running
 # pdb.set_trace()
 # How to run: open powershell type be on the root : streamlit run UI/app.py
 
+
+def set_role():
+    # Callback function to save the role selection to Session State
+    st.session_state.role = st.session_state._role
+
+
 def main():
     #breakpoint()
+
+    # Initialize st.session_state.role to None
+    if "role" not in st.session_state:
+        st.session_state.role = None
+
+    # Retrieve the role from Session State to initialize the widget
+    st.session_state._role = st.session_state.role
+
+    # Selectbox to choose role
+    st.selectbox(
+        "Select your role:",
+        [None, "user", "admin", "super-admin"],
+        key="_role",
+        on_change=set_role,
+    )
+    menu()  # Render the dynamic menu!
+
+    # Program forcastweather
     st.title('                          Weather Forecast App                                                      ')
     text = "OOP Design {patterns,classes,Persistence Cache,Queue,Events,Encryption,serializers'}"
     st.markdown(f'<h1 style="font-size: 12pt;">{text}</h1>', unsafe_allow_html=True)
@@ -32,12 +61,9 @@ def main():
 
     if st.button('Get Weather'):
         weather_srv_obj = WeatherServicePrinter()
-        #breakpoint()
         weather_srv_obj.get_all_forcast(city, country, state)
         weather_srv_obj.print_data()
 
-        #while True:
-        #try:
         next_item = weather_srv_obj.get_from_queue()
         #  #next_item format =>  {"textarea": str, "dict plot": dictplot --streamlit}
 
