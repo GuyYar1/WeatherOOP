@@ -9,8 +9,6 @@ def support_abs_sys_path():
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
 
-
-
 support_abs_sys_path()
 
 # Now you can use absolute imports
@@ -27,29 +25,13 @@ import pdb  # debug on run mode , good for streamlit running
 # How to run: open powershell type be on the root : streamlit run UI/app.py
 
 
-def set_role():
-    # Callback function to save the role selection to Session State
-    st.session_state.role = st.session_state._role
-
 
 def main():
-    #breakpoint()
-
-    # Initialize st.session_state.role to None
-    if "role" not in st.session_state:
-        st.session_state.role = None
-
-    # Retrieve the role from Session State to initialize the widget
-    st.session_state._role = st.session_state.role
-
-    # Selectbox to choose role
-    st.selectbox(
-        "Select your role:",
-        [None, "user", "admin", "super-admin"],
-        key="_role",
-        on_change=set_role,
-    )
+    user_selection_option()
     menu()  # Render the dynamic menu!
+
+    main_bg_url = "https://th.bing.com/th/id/OIP.IJRXaAJEEXBsJ5L26O4b8QAAAA?rs=1&pid=ImgDetMain"  # Replace with your image URL
+    method_name(main_bg_url)
 
     # Program forcastweather
     st.title('                          Weather Forecast App                                                      ')
@@ -86,6 +68,37 @@ def main():
             st.write("-" * 20)
         else:
             st.write('Failed to retrieve weather data.')
+
+
+def method_name(main_bg_url):
+    st.markdown(f"""
+        <style>
+            reportview-container {{
+                background: url("{main_bg_url}");
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+
+def user_selection_option():
+    # Initialize st.session_state.role to None
+    if "role" not in st.session_state:
+        st.session_state.role = None
+    # Retrieve the role from Session State to initialize the widget
+    st.session_state._role = st.session_state.role
+    # Selectbox to choose role
+    st.selectbox(
+        "Select your role:",
+        [None, "user", "admin", "super-admin"],
+        key="_role",
+        on_change=set_role,
+    )
+
+
+def set_role():
+    # Callback function to save the role selection to Session State
+    st.session_state.role = st.session_state._role
+
 
 
 if __name__ == "__main__":
