@@ -1,7 +1,9 @@
-The current project is an improvment of the  which was with no logic. Low separation to classes.currently there are utils and one class.
-Here I used OOP design , pattern(factory, Single tone, Injection , SOLID ) queue , Cache ,Persistance ,cache, encription for API key. more ...
+The current project is an improvment kept the: SOLID hence that also kept on: Low separation to classes.
+OOP design: pattern(factory, Single tone, Injection , SOLID ) queue , Cache ,Persistance ,cache, encription for API key. more ...
 
-Your review is wellcome.
+https://biu0weather0oop.streamlit.app/
+
+Your code review is wellcome.
 
 # Git_Hub:
 https://github.com/GuyYar1/WeatherOOP
